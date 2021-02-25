@@ -1,14 +1,10 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import sample.objects.Admin;
-import sample.objects.Employee;
 
 
 public class Main extends Application  {
@@ -23,8 +19,9 @@ public class Main extends Application  {
     @Override
     public void start(Stage primaryStage) throws Exception{
        window = primaryStage;
-       root = FXMLLoader.load(getClass().getResource("/sample/test.fxml"));
-       window.setScene(new Scene(root,1100,700));
+       root = FXMLLoader.load(getClass().getResource("/sample/fxml/Login.fxml"));
+       window.setScene(new Scene(root));
+       window.setMaximized(true);
        window.show();
 
     }

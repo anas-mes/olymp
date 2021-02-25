@@ -1,18 +1,24 @@
-package sample;
+package sample.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sample.AppSize;
+import sample.objects.Package;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,6 +58,9 @@ public class Emballages implements Initializable {
     @FXML
     private Button newEntry;
 
+    Parent root;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         package_idColumn.setCellValueFactory(new PropertyValueFactory<>("package_id"));
@@ -73,6 +82,35 @@ public class Emballages implements Initializable {
 
         return packages;
     }
-    //test
+
+    public void viewEmballages(ActionEvent actionEvent) throws IOException {
+        showView("Emballages.fxml",actionEvent);
+
+    }
+
+    public void viewIngredients(ActionEvent actionEvent) throws IOException {
+        showView("Ingredients.fxml",actionEvent);
+    }
+
+    public void viewRecipes(ActionEvent actionEvent) throws IOException {
+        showView("recipes.fxml",actionEvent);
+    }
+
+    public void viewProducts(ActionEvent actionEvent) throws IOException {
+        showView("Stock.fxml",actionEvent);
+    }
+
+    public void viewNewEntry(ActionEvent actionEvent) {
+    }
+
+
+    //method called after buttonclick on the navigationbar at the left to get the view
+    public void showView(String fxmlData, ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/sample/fxml/"+fxmlData));
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.getScene().setRoot(root);
+        window.setMaximized(true);
+        window.show();
+    }
 
 }
