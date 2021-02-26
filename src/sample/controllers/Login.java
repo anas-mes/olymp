@@ -25,7 +25,6 @@ public class Login {
     @FXML
     void loginclick(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/fxml/Emballages.fxml"));
-
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.getScene().setRoot(root);
         window.show();

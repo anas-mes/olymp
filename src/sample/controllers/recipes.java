@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import sample.AppSize;
 
 import java.io.IOException;
 

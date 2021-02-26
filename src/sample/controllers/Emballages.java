@@ -8,13 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import sample.AppSize;
 import sample.objects.Package;
 
 
@@ -67,7 +65,9 @@ public class Emballages implements Initializable {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
-        table1.getItems().setAll(getProduct());
+
+        table1.setItems(getProduct());
+        table1.getColumns().addAll(package_idColumn,descriptionColumn,categorieColumn,stockColumn);
     }
 
     public ObservableList<Package> getProduct(){
@@ -100,7 +100,8 @@ public class Emballages implements Initializable {
         showView("Stock.fxml",actionEvent);
     }
 
-    public void viewNewEntry(ActionEvent actionEvent) {
+    public void viewNewEntry(ActionEvent actionEvent) throws IOException {
+    EntryDialog.displayDialog();
     }
 
 
