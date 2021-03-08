@@ -10,12 +10,12 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.EntryDialog">
    <center>
       <ScrollPane fx:id="sp" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <content>
-            <VBox fx:id="list" prefHeight="318.0" prefWidth="429.0" />
-         </content>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <content>
+            <VBox fx:id="List" prefHeight="255.0" prefWidth="576.0" />
+         </content>
       </ScrollPane>
    </center>
    <bottom>

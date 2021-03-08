@@ -1,12 +1,13 @@
 package sample.objects;
 
-public class Package {
+public class Package extends Outils {
     private String name;
     private String package_id;
     private int stock;
     private String categorie ;
 
     public Package() {
+
     }
 
     public Package(String name, String package_id, int stock, String categorie) {
@@ -64,5 +65,9 @@ public class Package {
                 ", stock=" + stock +
                 ", categorie='" + categorie + '\'' +
                 '}';
+    }
+
+    public void addStock(int i){
+        stock=+i;
     }
 }

@@ -67,7 +67,7 @@ public class Emballages implements Initializable {
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 
         table1.setItems(getProduct());
-        table1.getColumns().addAll(package_idColumn,descriptionColumn,categorieColumn,stockColumn);
+        //table1.getColumns().addAll(package_idColumn,descriptionColumn,categorieColumn,stockColumn);
     }
 
     public ObservableList<Package> getProduct(){
@@ -77,7 +77,7 @@ public class Emballages implements Initializable {
         packages.add(new Package("bouteille de 400","b_300",10,"btttl"));
         packages.add(new Package("bouteille de 500","b_400",10,"boutessille"));
         packages.add(new Package("bouteille de 600","b_500",10,"s"));
-        packages.add(new Package("bouteille de 700","b_600",10,"veve"));
+        packages.add(new Package("bouteille de 700","b_600",13,"veve"));
 
 
         return packages;

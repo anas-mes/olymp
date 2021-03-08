@@ -67,7 +67,7 @@
                   <Image url="@../olymImage.png" />
                </image>
             </ImageView>
-            <TableView fx:id="table2" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table1" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="package_idColumn" prefWidth="75.0" text="Emballage_id" />
                 <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
@@ -81,7 +81,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </TableView>
-            <TableView fx:id="table1" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table2" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                 <TableColumn fx:id="enregistreparColumn" prefWidth="75.0" text="Enregistre par" />

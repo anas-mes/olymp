@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -21,9 +22,6 @@ public class EntryDialog {
     private ScrollPane sp;
 
     @FXML
-    private VBox list;
-
-    @FXML
     private Button add_btn;
 
     @FXML
@@ -32,6 +30,8 @@ public class EntryDialog {
     @FXML
     private Button cancel_btn;
 
+    @FXML
+    private VBox List;
 
 
 
@@ -42,7 +42,7 @@ public class EntryDialog {
 
     public static void displayDialog() throws IOException {
         Parent root = FXMLLoader.load(EntryDialog.class.getResource("/sample/fxml/EntryDialog.fxml"));
-        //window.initModality(Modality.APPLICATION_MODAL);
+        window.initModality(Modality.APPLICATION_MODAL);
 
         window.setScene(new Scene(root));
         window.showAndWait();
@@ -52,7 +52,7 @@ public class EntryDialog {
 
     public void add(ActionEvent actionEvent) throws IOException {
         root2 = FXMLLoader.load(EntryDialog.class.getResource("/sample/fxml/Package_entry.fxml"));
-        list.getChildren().add(root2);
+        List.getChildren().add(root2);
     }
 
     public void confirm(ActionEvent actionEvent) {
