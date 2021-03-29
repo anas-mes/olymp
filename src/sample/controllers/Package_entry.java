@@ -1,26 +1,33 @@
 package sample.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
-public class Package_entry {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Package_entry implements Initializable{
+
     @FXML
-    private Button close;
+    private Spinner<Integer> spinner;
 
     @FXML
-    void closeEntry(ActionEvent event) {
-        Node n = (Node) event.getSource();
+    private Text text;
 
-        // get node to remove
-        //Node p = n.getParent();
+    @FXML
+    private ChoiceBox<String> choiceBox;
 
-        // remove p from parent's child list
-        ((VBox) n.getParent()).getChildren().remove(n);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+
+
+
 
 }

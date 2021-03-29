@@ -83,7 +83,7 @@ public class recipes implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         recipeList.getItems().addAll(getProduct());
-       
+
 
 
     }

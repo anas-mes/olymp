@@ -1,6 +1,6 @@
 package sample.objects;
 
-public class Package extends Outils {
+public class Package {
     private String name;
     private String package_id;
     private int stock;

@@ -8,16 +8,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sample.objects.DatabaseHelper;
 import sample.objects.Package;
 
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class Emballages implements Initializable {
@@ -56,35 +56,60 @@ public class Emballages implements Initializable {
     @FXML
     private Button newEntry;
 
+    @FXML
+    private TextField emballageName;
+
+    @FXML
+    private TextField emballageId;
+
+    @FXML
+    private ChoiceBox<String> categorie ;
+
+    @FXML
+    private Button ajout;
+
     Parent root;
+    ObservableList<Package> packages = FXCollections.observableArrayList();
+
+    Connection con ;
+    Statement stmt ;
+    ResultSet rs = null;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        con = DatabaseHelper.getConnection();
+        categorie = new ChoiceBox<>();
+
+        try {
+            stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("select * from emballage");
+
+        while(rs.next()){
+            Package tmp = new Package(rs.getString(1),rs.getString(2),rs.getInt(4),rs.getString(3));
+            packages.add(tmp);
+        }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        categorie.getItems().add("Paperbord");
+        categorie.getItems().add("box");
+        categorie.getItems().add("Plastic");
+
         package_idColumn.setCellValueFactory(new PropertyValueFactory<>("package_id"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 
-        table1.setItems(getProduct());
-        //table1.getColumns().addAll(package_idColumn,descriptionColumn,categorieColumn,stockColumn);
+        table1.setItems(packages);
+
     }
 
-    public ObservableList<Package> getProduct(){
-        ObservableList<Package> packages = FXCollections.observableArrayList();
-        packages.add(new Package("bouteille de 100","b_100",10,"bouteille"));
-        packages.add(new Package("bouteille de 300","b_200",10,"btl"));
-        packages.add(new Package("bouteille de 400","b_300",10,"btttl"));
-        packages.add(new Package("bouteille de 500","b_400",10,"boutessille"));
-        packages.add(new Package("bouteille de 600","b_500",10,"s"));
-        packages.add(new Package("bouteille de 700","b_600",13,"veve"));
-
-
-        return packages;
-    }
 
     public void viewEmballages(ActionEvent actionEvent) throws IOException {
         showView("Emballages.fxml",actionEvent);
+
 
     }
 
@@ -101,7 +126,9 @@ public class Emballages implements Initializable {
     }
 
     public void viewNewEntry(ActionEvent actionEvent) throws IOException {
-    EntryDialog.displayDialog();
+    EntryDialog.displayDialog(packages);
+
+
     }
 
 
@@ -114,4 +141,19 @@ public class Emballages implements Initializable {
         window.show();
     }
 
+    public void ajouter(ActionEvent actionEvent) throws SQLException {
+        String id = emballageId.getText();
+        String desc = emballageName.getText();
+        String categori = categorie.getValue();
+        Statement stmt = con.createStatement();
+        String sql = "INSERT INTO emballage VALUES ('"+id+"','"+desc+"','"+categori+"',0);";
+        stmt.execute(sql);
+        emballageName.clear();
+        emballageId.clear();
+    }
+
+
+    public ObservableList<Package> getPackages(){
+        return packages;
+    }
 }
