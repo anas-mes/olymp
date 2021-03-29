@@ -62,14 +62,18 @@ public class Emballages implements Initializable {
     @FXML
     private TextField emballageId;
 
+
     @FXML
-    private ChoiceBox<String> categorie ;
+    private ChoiceBox<String> choice;
+
+
 
     @FXML
     private Button ajout;
 
     Parent root;
     ObservableList<Package> packages = FXCollections.observableArrayList();
+    ObservableList<String> categories = FXCollections.observableArrayList();
 
     Connection con ;
     Statement stmt ;
@@ -79,7 +83,8 @@ public class Emballages implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         con = DatabaseHelper.getConnection();
-        categorie = new ChoiceBox<>();
+
+
 
         try {
             stmt=con.createStatement();
@@ -93,9 +98,11 @@ public class Emballages implements Initializable {
             throwables.printStackTrace();
         }
 
-        categorie.getItems().add("Paperbord");
-        categorie.getItems().add("box");
-        categorie.getItems().add("Plastic");
+        choice.getItems().add("categorie 1");
+        choice.getItems().add("categorie 2");
+        choice.getItems().add("categorie 3");
+
+
 
         package_idColumn.setCellValueFactory(new PropertyValueFactory<>("package_id"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -144,14 +151,14 @@ public class Emballages implements Initializable {
     public void ajouter(ActionEvent actionEvent) throws SQLException {
         String id = emballageId.getText();
         String desc = emballageName.getText();
-        String categori = categorie.getValue();
+        String categori = choice.getValue().toString();
         Statement stmt = con.createStatement();
         String sql = "INSERT INTO emballage (emballage_id,description,categorie) SELECT id,descr,cat FROM (SELECT '"+id+"' as id, '"+desc+"' as descr, '"+categori+"' as cat) t WHERE NOT EXISTS (SELECT 1 FROM emballage u WHERE u.emballage_id = '"+id+"');";
         stmt.execute(sql);
         emballageName.clear();
         emballageId.clear();
 
-       
+
 
     }
 

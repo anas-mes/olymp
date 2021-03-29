@@ -69,7 +69,7 @@
                   <Image url="@../olymImage.png" />
                </image>
             </ImageView>
-            <TableView fx:id="table1" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table1" prefHeight="220.0" prefWidth="590.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="package_idColumn" prefWidth="75.0" text="Emballage_id" />
                 <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
@@ -85,13 +85,25 @@
             </TableView>
             <HBox alignment="CENTER_LEFT" prefHeight="59.0" prefWidth="610.0">
                <children>
-                  <TextField fx:id="emballageName" prefHeight="49.0" prefWidth="149.0" promptText="Nom d'emballage" />
-                  <TextField fx:id="emballageId" promptText="emballage id" />
-                  <ChoiceBox fx:id="categogie" prefWidth="150.0" />
+                  <TextField fx:id="emballageId" promptText="emballage id">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></TextField>
+                  <TextField fx:id="emballageName" prefHeight="24.0" prefWidth="267.0" promptText="Nom d'emballage">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></TextField>
+                  <ChoiceBox fx:id="choice" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></ChoiceBox>
                   <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajouter" text="AJOUTER " />
                </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
             </HBox>
-            <TableView fx:id="table2" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table2" prefHeight="220.0" prefWidth="590.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                 <TableColumn fx:id="enregistreparColumn" prefWidth="75.0" text="Enregistre par" />
