@@ -86,7 +86,7 @@ public class Emballages implements Initializable {
             ResultSet rs=stmt.executeQuery("select * from emballage");
 
         while(rs.next()){
-            Package tmp = new Package(rs.getString(1),rs.getString(2),rs.getInt(4),rs.getString(3));
+            Package tmp = new Package(rs.getString(2),rs.getString(1),rs.getInt(4),rs.getString(3));
             packages.add(tmp);
         }
         } catch (SQLException throwables) {
@@ -146,10 +146,13 @@ public class Emballages implements Initializable {
         String desc = emballageName.getText();
         String categori = categorie.getValue();
         Statement stmt = con.createStatement();
-        String sql = "INSERT INTO emballage VALUES ('"+id+"','"+desc+"','"+categori+"',0);";
+        String sql = "INSERT INTO emballage (emballage_id,description,categorie) SELECT id,descr,cat FROM (SELECT '"+id+"' as id, '"+desc+"' as descr, '"+categori+"' as cat) t WHERE NOT EXISTS (SELECT 1 FROM emballage u WHERE u.emballage_id = '"+id+"');";
         stmt.execute(sql);
         emballageName.clear();
         emballageId.clear();
+
+       
+
     }
 
 
