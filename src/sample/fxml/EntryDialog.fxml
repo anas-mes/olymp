@@ -27,8 +27,8 @@
             <Label prefHeight="17.0" prefWidth="90.0" text="Quantité:" GridPane.rowIndex="2" />
             <Label prefHeight="17.0" prefWidth="90.0" text="Description" GridPane.rowIndex="1" />
             <Label fx:id="description" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Spinner fx:id="quantity" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="321.0" GridPane.columnIndex="1" />
+            <Spinner fx:id="quantity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <VBox.margin>
             <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />

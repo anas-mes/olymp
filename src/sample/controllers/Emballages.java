@@ -73,7 +73,7 @@ public class Emballages implements Initializable {
 
     Parent root;
     ObservableList<Package> packages = FXCollections.observableArrayList();
-    ObservableList<String> categories = FXCollections.observableArrayList();
+
 
     Connection con ;
     Statement stmt ;
@@ -133,7 +133,7 @@ public class Emballages implements Initializable {
     }
 
     public void viewNewEntry(ActionEvent actionEvent) throws IOException {
-    EntryDialog.displayDialog(packages);
+    EntryDialog.displayDialog();
 
 
     }
