@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.objects.DatabaseHelper;
 import sample.objects.Package;
+import sample.objects.PackageEntry;
 
 
 import java.io.IOException;
@@ -39,19 +40,19 @@ public class Emballages implements Initializable {
     private TableColumn<Package, Integer> stockColumn;
 
     @FXML
-    private TableView<?> table2;
+    private TableView<PackageEntry> table2;
 
     @FXML
-    private TableColumn<?, ?> dateColumn;
+    private TableColumn<PackageEntry, String> dateColumn;
 
     @FXML
-    private TableColumn<?, ?> employeeColumn;
+    private TableColumn<PackageEntry, String> registererColumn;
 
     @FXML
-    private TableColumn<?, ?> actionColumn;
+    private TableColumn<PackageEntry, String> actionColumn;
 
     @FXML
-    private TableColumn<?, ?> articlesColumn;
+    private TableColumn<PackageEntry, String> articlesColumn;
 
     @FXML
     private Button newEntry;
@@ -66,13 +67,16 @@ public class Emballages implements Initializable {
     @FXML
     private ChoiceBox<String> choice;
 
-
+    @FXML
+    private Label title;
 
     @FXML
     private Button ajout;
 
     Parent root;
     ObservableList<Package> packages = FXCollections.observableArrayList();
+    ObservableList<PackageEntry> entries = FXCollections.observableArrayList();
+
 
 
     Connection con ;
@@ -84,20 +88,17 @@ public class Emballages implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         con = DatabaseHelper.getConnection();
 
-
-
         try {
-            stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from emballage");
-
-        while(rs.next()){
-            Package tmp = new Package(rs.getString(2),rs.getString(1),rs.getInt(4),rs.getString(3));
-            packages.add(tmp);
-        }
+            updateList();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
+        try {
+            updateEntries();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         choice.getItems().add("categorie 1");
         choice.getItems().add("categorie 2");
         choice.getItems().add("categorie 3");
@@ -109,7 +110,10 @@ public class Emballages implements Initializable {
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 
-        table1.setItems(packages);
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("currentTime"));
+        registererColumn.setCellValueFactory(new PropertyValueFactory<>("registerer"));
+        actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
+        articlesColumn.setCellValueFactory(new PropertyValueFactory<>("articles"));
 
     }
 
@@ -147,7 +151,7 @@ public class Emballages implements Initializable {
         window.setMaximized(true);
         window.show();
     }
-
+    //add a new package item to the list
     public void ajouter(ActionEvent actionEvent) throws SQLException {
         String id = emballageId.getText();
         String desc = emballageName.getText();
@@ -157,10 +161,37 @@ public class Emballages implements Initializable {
         stmt.execute(sql);
         emballageName.clear();
         emballageId.clear();
+        updateList();
+    }
 
-
+    public void updateList() throws SQLException {
+        packages.clear();
+        stmt=con.createStatement();
+        ResultSet rs=stmt.executeQuery("select * from emballage");
+        while(rs.next()){
+            Package tmp = new Package(rs.getString(2),rs.getString(1),rs.getInt(4),rs.getString(3));
+            packages.add(tmp);
 
     }
+        table1.setItems(packages);
+
+    }
+
+
+    public void updateEntries() throws SQLException {
+        entries.clear();
+        stmt=con.createStatement();
+        ResultSet rs=stmt.executeQuery("select * from entryPackage");
+        while(rs.next()){
+            PackageEntry tmp = new PackageEntry(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+            entries.add(tmp);
+
+        }
+        table2.setItems(entries);
+
+    }
+
+
 
 
     public ObservableList<Package> getPackages(){

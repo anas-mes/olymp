@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sample.objects.CurrentUser;
 import sample.objects.DatabaseHelper;
 import sample.objects.Package;
 
@@ -57,25 +58,35 @@ public class EntryDialog implements Initializable{
 
     @FXML
     void addPackage(ActionEvent event) throws SQLException {
-       String id = null;
-       String tochange= choice.getValue();
-       int stockupdate =0;
-       for(Package pk : packages){
-           if(tochange.equals(pk.getPackage_id())){
-               stockupdate = quantity.getValue().hashCode() + pk.getStock();
-               id = pk.getPackage_id();break;
-           }
-       }
-       // System.out.println("id ="+id+" add = ");
-    stmt.execute("Update emballage set stock ="+stockupdate+" where emballage_id = '"+id+"';");
+        updateStock();
+       updateEntry();
        window.close();
     }
 
+    private boolean updateStock() throws SQLException {
+        String id = null;
+        String tochange= choice.getValue();
+        int stockupdate =0;
+        for(Package pk : packages){
+            if(tochange.equals(pk.getPackage_id())){
+                stockupdate = quantity.getValue().hashCode() + pk.getStock();
+                id = pk.getPackage_id();break;
+            }
+        }
+
+        stmt.execute("Update emballage set stock ="+stockupdate+" where emballage_id = '"+id+"';");
+        return true;
+    }
+
+    private void updateEntry() throws SQLException {
+        String id =Integer.toString(CurrentUser.getUser_id());
+
+        stmt.execute("insert into entryPackage value (current_timestamp,'"+id+"','Checkin','"+choice.getValue()+"');");
+    }
 
 
     public static void displayDialog() throws IOException {
-
-
+        
         Parent root = FXMLLoader.load(EntryDialog.class.getResource("/sample/fxml/EntryDialog.fxml"));
         window.setScene(new Scene(root));
         window.setTitle("add");

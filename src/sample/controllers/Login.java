@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.objects.CurrentUser;
 import sample.objects.DatabaseHelper;
 
 import java.io.IOException;
@@ -28,7 +29,10 @@ public class Login {
     @FXML
     private Button login;
 
+
+
     Parent root;
+    ResultSet rs;
 
     Connection con = DatabaseHelper.getConnection() ;
     Statement stmnt ;
@@ -36,6 +40,9 @@ public class Login {
     @FXML
     void loginclick(ActionEvent event) throws IOException, SQLException {
         if(check()){
+        CurrentUser.setUser_id(rs.getInt(1));
+        CurrentUser.setDisplayName("Anas mesbah");
+        CurrentUser.setPosition(rs.getString(4));
         root = FXMLLoader.load(getClass().getResource("/sample/fxml/Emballages.fxml"));
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.getScene().setRoot(root);
@@ -47,7 +54,7 @@ public class Login {
     public boolean check() throws SQLException {
         String sql = "SELECT * FROM users WHERE user_id='" + username.getText() + "' && password='" + password.getText()+ "'";
         stmnt = con.createStatement();
-        ResultSet rs  = stmnt.executeQuery(sql);
+        rs = stmnt.executeQuery(sql);
       if(rs.next() == false ){
           return false;
       }else{

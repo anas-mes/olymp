@@ -53,7 +53,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0" style="-fx-background-color: #7A7A7A;" BorderPane.alignment="CENTER">
          <children>
-            <Label contentDisplay="CENTER" text="Derniere connexion le : 13/12/2021 Vous etes connecte en tant que : 1185539 en role de : Employe">
+            <Label fx:id="title" contentDisplay="CENTER" text="Derniere connexion le : 13/12/2021 Vous etes connecte en tant que : 1185539 en role de : Employe">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -106,7 +106,7 @@
             <TableView fx:id="table2" prefHeight="220.0" prefWidth="590.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
-                <TableColumn fx:id="enregistreparColumn" prefWidth="75.0" text="Enregistre par" />
+                <TableColumn fx:id="registererColumn" prefWidth="75.0" text="Enregistre par" />
                   <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
                   <TableColumn fx:id="articlesColumn" prefWidth="75.0" text="Articles" />
               </columns>
