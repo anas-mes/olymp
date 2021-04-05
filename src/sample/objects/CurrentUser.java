@@ -36,4 +36,12 @@ public class CurrentUser {
         CurrentUser.position = position;
     }
 
+    public static boolean isAdmin(){
+        if(position.equals("admin")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

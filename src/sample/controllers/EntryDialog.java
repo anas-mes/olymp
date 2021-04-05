@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.objects.CurrentUser;
 import sample.objects.DatabaseHelper;
+import sample.objects.Ingredient;
 import sample.objects.Package;
 
 import java.io.IOException;
@@ -33,7 +34,9 @@ import java.util.ResourceBundle;
 
 public class EntryDialog implements Initializable{
 
+    private static String ss;
     ObservableList<Package> packages = FXCollections.observableArrayList();
+    ObservableList<Ingredient> ingredients = FXCollections.observableArrayList();
 
     @FXML
     private ChoiceBox<String> choice = new ChoiceBox<>();
@@ -45,6 +48,8 @@ public class EntryDialog implements Initializable{
 
     @FXML
     private Button add;
+
+
 
     static Stage window = new Stage();
 
@@ -64,29 +69,29 @@ public class EntryDialog implements Initializable{
     }
 
     private boolean updateStock() throws SQLException {
-        String id = null;
-        String tochange= choice.getValue();
-        int stockupdate =0;
-        for(Package pk : packages){
-            if(tochange.equals(pk.getPackage_id())){
-                stockupdate = quantity.getValue().hashCode() + pk.getStock();
-                id = pk.getPackage_id();break;
-            }
-        }
 
-        stmt.execute("Update emballage set stock ="+stockupdate+" where emballage_id = '"+id+"';");
-        return true;
+        if(ss.equals("p")){
+            stmt.execute("Update emballage set stock = stock + "+quantity.getValue().toString()+" where emballage_id = '"+choice.getValue()+"';");
+        return true ;
+        }else if (ss.equals("i")){
+            stmt.execute("Update ingredients set stock = stock + "+quantity.getValue().toString()+" where ingredient_id = '"+choice.getValue()+"';");
+        return true ;}
+
+        return false;
     }
 
     private void updateEntry() throws SQLException {
-        String id =Integer.toString(CurrentUser.getUser_id());
-
-        stmt.execute("insert into entryPackage value (current_timestamp,'"+id+"','Checkin','"+choice.getValue()+"');");
+        String id = Integer.toString(CurrentUser.getUser_id());
+        if (ss.equals("p")) {
+            stmt.execute("insert into entryPackage value (current_timestamp,'" + id + "','Checkin','" + choice.getValue() + "');");
+        } else if (ss.equals("i")) {
+            stmt.execute("insert into entryIngredient value (current_timestamp,'" + id + "','Checkin','" + choice.getValue() + "');");
+        }
     }
 
 
-    public static void displayDialog() throws IOException {
-        
+    public static void displayDialog(String i) throws IOException {
+       ss=i;
         Parent root = FXMLLoader.load(EntryDialog.class.getResource("/sample/fxml/EntryDialog.fxml"));
         window.setScene(new Scene(root));
         window.setTitle("add");
@@ -97,26 +102,47 @@ public class EntryDialog implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(ss.equals("p")) {
+            try {
+                stmt = con.createStatement();
+                rs = stmt.executeQuery("select * from emballage");
 
-        try {
-            stmt=con.createStatement();
-            rs=stmt.executeQuery("select * from emballage");
-
-            while(rs.next()){
-                Package tmp = new Package(rs.getString(2),rs.getString(1),rs.getInt(4),rs.getString(3));
-                packages.add(tmp);
-                choice.getItems().add(rs.getString(1));
+                while (rs.next()) {
+                    Package tmp = new Package(rs.getString(2), rs.getString(1), rs.getInt(4), rs.getString(3));
+                    packages.add(tmp);
+                    choice.getItems().add(rs.getString(1));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        }else{
+            try {
+                stmt = con.createStatement();
+                rs = stmt.executeQuery("select * from ingredients");
+
+                while (rs.next()) {
+                    Ingredient tmp = new Ingredient(rs.getString(2), rs.getString(1), rs.getInt(4), rs.getString(3));
+                    ingredients.add(tmp);
+                    choice.getItems().add(rs.getString(1));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+
+
         }
+
         SpinnerValueFactory<Integer> quantityvaluefactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,10000,0);
         this.quantity.setValueFactory(quantityvaluefactory);
         quantity.setEditable(true);
 
 
 
-
+        choice.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+                    description.setText(new_val.toString());
+                });
     }
 
 

@@ -10,7 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import sample.objects.CurrentUser;
 import sample.objects.DatabaseHelper;
 import sample.objects.Package;
 import sample.objects.PackageEntry;
@@ -73,6 +75,10 @@ public class Emballages implements Initializable {
     @FXML
     private Button ajout;
 
+    @FXML
+    private HBox hbox;
+
+
     Parent root;
     ObservableList<Package> packages = FXCollections.observableArrayList();
     ObservableList<PackageEntry> entries = FXCollections.observableArrayList();
@@ -103,7 +109,9 @@ public class Emballages implements Initializable {
         choice.getItems().add("categorie 2");
         choice.getItems().add("categorie 3");
 
-
+        if(!CurrentUser.isAdmin()){
+            hbox.setVisible(false);
+        }
 
         package_idColumn.setCellValueFactory(new PropertyValueFactory<>("package_id"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -137,7 +145,7 @@ public class Emballages implements Initializable {
     }
 
     public void viewNewEntry(ActionEvent actionEvent) throws IOException {
-    EntryDialog.displayDialog();
+    EntryDialog.displayDialog("p");
 
 
     }
@@ -181,7 +189,7 @@ public class Emballages implements Initializable {
     public void updateEntries() throws SQLException {
         entries.clear();
         stmt=con.createStatement();
-        ResultSet rs=stmt.executeQuery("select * from entryPackage");
+        ResultSet rs=stmt.executeQuery("select * from entryPackage Order by  date DESC  ");
         while(rs.next()){
             PackageEntry tmp = new PackageEntry(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
             entries.add(tmp);

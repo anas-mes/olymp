@@ -82,28 +82,12 @@ public class recipes implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        recipeList.getItems().addAll(getProduct());
+
 
 
 
     }
 
-    public ObservableList<Recette> getProduct(){
-        Ingredient ing = new Ingredient("acide acidic","ac_124");
-        Ingredient ing2 = new Ingredient("eau","o_757");
-        Ingredient ing3 = new Ingredient("silf","1vr18");
-        Ingredient ing4 = new Ingredient("bacccec","848ec8e");
-        Recette example = new Recette("gel","123");
-
-        example.addIngredient(ing,22);
-        example.addIngredient(ing2,35);
-        example.addIngredient(ing3,25);
-        example.addIngredient(ing4,15);
-
-        ObservableList<Recette> recettes = FXCollections.observableArrayList();
-        recettes.add(example);
-        return recettes;
-    }
 
 
     @FXML
@@ -118,7 +102,7 @@ public class recipes implements Initializable {
 
     @FXML
     void fabriquerClicked(ActionEvent event) throws IOException {
-        getProduct();
+
         FabricationDialog.displayDialog(recipeList.getSelectionModel().getSelectedItem());
 
     }

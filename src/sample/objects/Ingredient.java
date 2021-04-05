@@ -6,9 +6,11 @@ public class Ingredient {
     private int stock;
     private String categorie ;
 
-    public Ingredient(String name, String ingredient_id) {
+    public Ingredient(String name, String ingredient_id, int stock, String categorie) {
         this.name = name;
         this.ingredient_id = ingredient_id;
+        this.stock = stock;
+        this.categorie = categorie;
     }
 
     public Ingredient() {
