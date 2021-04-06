@@ -70,6 +70,9 @@ public class recipes implements Initializable {
     private Button chercher;
 
     @FXML
+    private Button recipeBtn;
+
+    @FXML
     private ListView<Recette> recipeList;
 
     @FXML
@@ -141,4 +144,7 @@ public class recipes implements Initializable {
         window.show();
     }
 
+    public void addRecipe(ActionEvent actionEvent) throws IOException {
+        AddRecipe.displayRecipeDialog();
+    }
 }

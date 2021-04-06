@@ -52,8 +52,6 @@ public class EntryDialog implements Initializable{
 
 
     static Stage window = new Stage();
-
-
     Connection con = DatabaseHelper.getConnection();
     static Statement stmt=null;
     static ResultSet rs = null ;
@@ -139,10 +137,10 @@ public class EntryDialog implements Initializable{
 
 
 
-        choice.getSelectionModel().selectedIndexProperty().addListener(
+       /* choice.getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
                     description.setText(new_val.toString());
-                });
+                });*/
     }
 
 
