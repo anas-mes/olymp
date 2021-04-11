@@ -2,9 +2,16 @@ package sample.objects;
 
 public class RecipeEntry {
     public String ingName;
-    public int purcentage;
-    public int gram;
-    public int ml;
+    public double purcentage;
+    public double gram;
+    public double ml;
+
+    public RecipeEntry(String ingName, double purcentage, double gram, double ml) {
+        this.ingName = ingName;
+        this.purcentage = purcentage;
+        this.gram = gram;
+        this.ml = ml;
+    }
 
     public RecipeEntry() {
     }
@@ -17,7 +24,7 @@ public class RecipeEntry {
         this.ingName = ingName;
     }
 
-    public int getPurcentage() {
+    public double getPurcentage() {
         return purcentage;
     }
 
@@ -25,19 +32,32 @@ public class RecipeEntry {
         this.purcentage = purcentage;
     }
 
-    public int getGram() {
+    public double  getGram() {
         return gram;
     }
 
-    public void setGram(int gram) {
+    public void setGram(double gram) {
         this.gram = gram;
     }
 
-    public int getMl() {
+    public double getMl() {
         return ml;
     }
 
-    public void setMl(int ml) {
+    @Override
+    public String toString() {
+        return "RecipeEntry{" +
+                "ingName='" + ingName + '\'' +
+                ", purcentage=" + purcentage +
+                ", gram=" + gram +
+                '}';
+    }
+
+    public void setMl(double ml) {
         this.ml = ml;
+    }
+
+    public double calculateGram(double batch){
+        return (this.purcentage*batch)/100;
     }
 }

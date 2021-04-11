@@ -21,6 +21,7 @@ public class Main extends Application  {
        window = primaryStage;
        root = FXMLLoader.load(getClass().getResource("/sample/fxml/Login.fxml"));
        window.setScene(new Scene(root));
+       window.setTitle("Olympe Beauty");
        window.setMaximized(true);
        window.show();
 

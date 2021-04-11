@@ -18,7 +18,7 @@
    <left>
       <VBox prefHeight="369.0" prefWidth="190.0" style="-fx-background-color: #61CE70 #61CE70;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="emballage_btn" mnemonicParsing="false" onAction="#viewEmballages" prefHeight="43.0" prefWidth="191.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Emballage" textFill="WHITE">
+            <Button fx:id="emballage_btn" mnemonicParsing="false" onAction="#viewEmballages" prefHeight="43.0" prefWidth="191.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Emballages" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -28,7 +28,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="recipe_btn" layoutX="10.0" layoutY="53.0" mnemonicParsing="false" onAction="#viewRecipes" prefHeight="43.0" prefWidth="192.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Recettes" textFill="WHITE">
+            <Button fx:id="recipe_btn" layoutX="10.0" layoutY="53.0" mnemonicParsing="false" onAction="#viewRecipes" prefHeight="43.0" prefWidth="192.0" style="-fx-background-color: #32A852; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Recettes" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -79,11 +79,11 @@
             </HBox>
             <TableView fx:id="table" prefHeight="200.0" prefWidth="500.0" tableMenuButtonVisible="true">
                <columns>
-                  <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
-                  <TableColumn fx:id="productColumn" prefWidth="75.0" text="Produit" />
-                  <TableColumn fx:id="estimeeColumn" prefWidth="75.0" text="Quantité estimée" />
-                  <TableColumn fx:id="producedColumn" prefWidth="75.0" text="Quantité produite" />
-                  <TableColumn fx:id="state" prefWidth="75.0" text="Statut" />
+                  <TableColumn fx:id="dateColumn" maxWidth="3500.0" prefWidth="40.0" text="Date" />
+                  <TableColumn fx:id="productColumn" prefWidth="250.0" text="Produit" />
+                  <TableColumn fx:id="estimeeColumn" maxWidth="3250.0" prefWidth="50.0" text="Quantité estimée" />
+                  <TableColumn fx:id="producedColumn" maxWidth="3250.0" prefWidth="50.0" text="Quantité produite" />
+                  <TableColumn fx:id="state" maxWidth="3250.0" prefWidth="75.0" text="Statut" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -92,6 +92,20 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </TableView>
+            <HBox alignment="CENTER" prefHeight="66.0" prefWidth="600.0">
+               <children>
+                  <TextField fx:id="quantityProduced" promptText="Quantité produite">
+                     <HBox.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="confirm" mnemonicParsing="false" onAction="#confirmation" text="CONFIRMER">
+                     <HBox.margin>
+                        <Insets bottom="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="610.0">
                <children>
                   <TextField fx:id="searchTextfield" alignment="TOP_LEFT" prefHeight="25.0" prefWidth="400.0" promptText="Recettes....">

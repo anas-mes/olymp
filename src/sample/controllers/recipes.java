@@ -17,12 +17,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import sample.objects.Ingredient;
+import sample.objects.*;
 import sample.objects.Package;
-import sample.objects.Recette;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class recipes implements Initializable {
@@ -46,22 +49,22 @@ public class recipes implements Initializable {
     private Button deconnect;
 
     @FXML
-    private TableView<?> table;
+    private TableView<Fabrication> table;
 
     @FXML
-    private TableColumn<?, ?> dateColumn;
+    private TableColumn<Fabrication, String> dateColumn;
 
     @FXML
-    private TableColumn<?, ?> productColumn;
+    private TableColumn<Fabrication, String> productColumn;
 
     @FXML
-    private TableColumn<?, ?> estimeeColumn;
+    private TableColumn<Fabrication, String> estimeeColumn;
 
     @FXML
-    private TableColumn<?, ?> producedColumn;
+    private TableColumn<Fabrication, String> producedColumn;
 
     @FXML
-    private TableColumn<?, ?> state;
+    private TableColumn<Fabrication, String> state;
 
     @FXML
     private TextField searchTextfield;
@@ -73,24 +76,62 @@ public class recipes implements Initializable {
     private Button recipeBtn;
 
     @FXML
-    private ListView<Recette> recipeList;
+    private ListView<String> recipeList;
 
     @FXML
     private Button fabriquer;
 
+    @FXML
+    private TextField quantityProduced;
+
+    @FXML
+    private Button confirm;
+
     Parent root;
     Scene scene;
+    Connection con = DatabaseHelper.getConnection();
+    Statement stmt ;
+    ResultSet rs = null;
+    ResultSet set = null;
 
+    ObservableList<Fabrication> fabrications = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            stmt = con.createStatement();
+            rs =stmt.executeQuery("Select distinct recipeName from recipes ;");
+            while(rs.next()){
+                recipeList.getItems().add(rs.getString(1));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("currenttime"));
+        productColumn.setCellValueFactory(new PropertyValueFactory<>("product"));
+        estimeeColumn.setCellValueFactory(new PropertyValueFactory<>("estimated"));
+        producedColumn.setCellValueFactory(new PropertyValueFactory<>("produced"));
+        state.setCellValueFactory(new PropertyValueFactory<>("status"));
+        try {
+            loadTable();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-
-
-
+        if(!CurrentUser.isAdmin()){
+            recipe_btn.setVisible(false);
+        }
 
     }
 
+    private void loadTable() throws SQLException {
+        stmt = con.createStatement();
+        set = stmt.executeQuery("select * from fabrication Order by  date DESC ");
+        while(set.next()){
+            Fabrication tmp = new Fabrication(set.getString(1),set.getString(2),set.getString(3),set.getString(4),set.getString(5));
+            table.getItems().add(tmp);
+        }
+    }
 
 
     @FXML
@@ -104,8 +145,8 @@ public class recipes implements Initializable {
     }
 
     @FXML
-    void fabriquerClicked(ActionEvent event) throws IOException {
-
+    void fabriquerClicked(ActionEvent event) throws IOException, SQLException {
+        if(!(recipeList.getSelectionModel().getSelectedItem()== null))
         FabricationDialog.displayDialog(recipeList.getSelectionModel().getSelectedItem());
 
     }
@@ -146,5 +187,8 @@ public class recipes implements Initializable {
 
     public void addRecipe(ActionEvent actionEvent) throws IOException {
         AddRecipe.displayRecipeDialog();
+    }
+
+    public void confirmation(ActionEvent actionEvent) {
     }
 }

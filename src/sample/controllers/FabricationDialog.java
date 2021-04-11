@@ -1,28 +1,32 @@
 package sample.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.objects.Ingredient;
+import javafx.stage.WindowEvent;
+import sample.objects.*;
 import sample.objects.Package;
-import sample.objects.Recette;
-import sample.objects.RecipeEntry;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class FabricationDialog implements Initializable{
 
@@ -38,11 +42,10 @@ public class FabricationDialog implements Initializable{
     @FXML
     private TableColumn<RecipeEntry, Integer> gramm;
 
-    @FXML
-    private TableColumn<RecipeEntry, Integer> litre;
 
     @FXML
-    static private TextField batchSize = new TextField();
+    private TextField quantity;
+
 
     @FXML
     private Button calculer_btn;
@@ -50,32 +53,43 @@ public class FabricationDialog implements Initializable{
     @FXML
     private Button fabriquer_btn;
 
-    static Recette tmp = new Recette();
+    static Connection con = DatabaseHelper.getConnection();
+    static Statement stmt ;
+    static ResultSet rs = null;
+    static String r = null;
+    static ObservableList<RecipeEntry> ingredients = FXCollections.observableArrayList();
 
     @FXML
     void calculer(ActionEvent event) {
+        double batch = Double.parseDouble(quantity.getText());
+        for(RecipeEntry ig: ingredients){
+            ig.setGram(ig.calculateGram(batch));
+        }
 
+        table.refresh();
 
     }
 
 
     @FXML
-    void fabriquer(ActionEvent event) {
-
+    void fabriquer(ActionEvent event) throws SQLException {
+        stmt = con.createStatement();
+        stmt.execute("insert into fabrication(date,product,quantityEstimated) value (current_timestamp ,'"+r+"',"+quantity.getText()+")");
+        closeProgram();
     }
 
-    public static void displayDialog(Recette recette) throws IOException {
-        for (Ingredient key : recette.getIngredients().keySet()){
-            System.out.println(key);
-            System.out.println(recette.getIngredients().get(key));
+    public static void displayDialog(String recipe) throws IOException, SQLException {
+        r= recipe;
+        stmt = con.createStatement();
+        rs = stmt.executeQuery("SELECT ingredientId, purcentage from recipes where recipeName='"+recipe+"';");
+        while (rs.next()){
+            RecipeEntry tmp = new RecipeEntry(rs.getString(1),rs.getDouble(2),0.0,0.0);
+            ingredients.add(tmp);
         }
-        tmp = recette;
         Parent root = FXMLLoader.load(EntryDialog.class.getResource("/sample/fxml/FabricationDialog.fxml"));
-        //window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(recette.getName());
+        window.setTitle(recipe);
         window.setScene(new Scene(root));
-        window.showAndWait();
-
+        window.show();
 
     }
 
@@ -84,32 +98,28 @@ public class FabricationDialog implements Initializable{
        ingredient.setCellValueFactory(new PropertyValueFactory<>("ingName"));
         purcentage.setCellValueFactory(new PropertyValueFactory<>("purcentage"));
        gramm.setCellValueFactory(new PropertyValueFactory<>("gram"));
-       litre.setCellValueFactory(new PropertyValueFactory<>("ml"));
 
-        table.setItems(getProduct());
+       table.setItems(ingredients);
 
+        Pattern pattern = Pattern.compile("\\d*|\\d+\\.\\d*");
+        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+        });
 
-    }
+        quantity.setTextFormatter(formatter);
 
-    public ObservableList<RecipeEntry> getProduct(){
-        ObservableList<RecipeEntry> ingredients = FXCollections.observableArrayList();
-        for ( Ingredient key : tmp.getIngredients().keySet()  ) {
-            RecipeEntry entry = new RecipeEntry();
-            entry.setIngName(key.getName());
-            entry.setPurcentage(tmp.getIngredients().get(key));
-
-
-            ingredients.add(entry);
-
-        }
-
-
-        return ingredients;
-    }
-
-
+       window.setOnCloseRequest(e -> {e.consume(); closeProgram();});
 
 
     }
+
+    private void closeProgram() {
+        ingredients.clear();
+        window.close();
+
+    }
+
+
+}
 
 

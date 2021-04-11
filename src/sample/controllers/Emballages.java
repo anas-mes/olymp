@@ -67,7 +67,7 @@ public class Emballages implements Initializable {
 
 
     @FXML
-    private ChoiceBox<String> choice;
+    private TextField categorie;
 
     @FXML
     private Label title;
@@ -105,9 +105,7 @@ public class Emballages implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        choice.getItems().add("categorie 1");
-        choice.getItems().add("categorie 2");
-        choice.getItems().add("categorie 3");
+
 
         if(!CurrentUser.isAdmin()){
             hbox.setVisible(false);
@@ -163,12 +161,13 @@ public class Emballages implements Initializable {
     public void ajouter(ActionEvent actionEvent) throws SQLException {
         String id = emballageId.getText();
         String desc = emballageName.getText();
-        String categori = choice.getValue().toString();
+        String categori = categorie.getText();
         Statement stmt = con.createStatement();
         String sql = "INSERT INTO emballage (emballage_id,description,categorie) SELECT id,descr,cat FROM (SELECT '"+id+"' as id, '"+desc+"' as descr, '"+categori+"' as cat) t WHERE NOT EXISTS (SELECT 1 FROM emballage u WHERE u.emballage_id = '"+id+"');";
         stmt.execute(sql);
         emballageName.clear();
         emballageId.clear();
+        categorie.clear();
         updateList();
     }
 

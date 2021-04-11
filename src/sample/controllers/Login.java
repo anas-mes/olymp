@@ -21,10 +21,10 @@ import java.sql.Statement;
 public class Login {
 
     @FXML
-    private TextField password;
+    private TextField username;
 
     @FXML
-    private TextField username;
+    private TextField password;
 
     @FXML
     private Button login;
