@@ -160,6 +160,8 @@ public class recipes implements Initializable {
         if(!(recipeList.getSelectionModel().getSelectedItem()== null))
         FabricationDialog.displayDialog(recipeList.getSelectionModel().getSelectedItem());
 
+
+
     }
 
     @FXML
@@ -208,7 +210,11 @@ public class recipes implements Initializable {
         if(tmp.getStatus().equals("ouvert")){
             stmt.execute("update fabrication set quantityProduced="+quant+" , status = 'fermé' where date ='"+tmp.getCurrenttime()+"' ;");
 
+            stmt.execute("update stock set stock = stock+ "+quant+" where description='"+tmp.getProduct()+"';");
+            System.out.println(tmp.getProduct());
+
         }
+
         loadTable();
 
 

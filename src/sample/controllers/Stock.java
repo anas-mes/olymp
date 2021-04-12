@@ -1,20 +1,34 @@
 package sample.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import sample.objects.DatabaseHelper;
+import sample.objects.Package;
+import sample.objects.PackageEntry;
+import sample.objects.stock;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ResourceBundle;
 
-public class Stock {
+public class Stock implements Initializable {
 
     @FXML
     private BorderPane borderpane;
@@ -35,22 +49,22 @@ public class Stock {
     private Button deconnect;
 
     @FXML
+    private TableView<stock> table1;
+
+    @FXML
+    private TableColumn<stock, String> product_idColumn;
+
+    @FXML
+    private TableColumn<stock, String> descriptionColumn;
+
+    @FXML
+    private TableColumn<stock, String> categorieColumn;
+
+    @FXML
+    private TableColumn<stock, Integer> stockColumn;
+
+    @FXML
     private TableView<?> table2;
-
-    @FXML
-    private TableColumn<?, ?> product_idColumn;
-
-    @FXML
-    private TableColumn<?, ?> descriptionColumn;
-
-    @FXML
-    private TableColumn<?, ?> categorieColumn;
-
-    @FXML
-    private TableColumn<?, ?> stockColumn;
-
-    @FXML
-    private TableView<?> table1;
 
     @FXML
     private TableColumn<?, ?> dateColumn;
@@ -66,6 +80,12 @@ public class Stock {
 
     Parent root;
     Scene scene;
+
+    Connection con = DatabaseHelper.getConnection();
+    Statement stmt ;
+
+    ObservableList<stock> products = FXCollections.observableArrayList();
+    ObservableList<stock> checkouts = FXCollections.observableArrayList();
 
     @FXML
     void deconnectClicked(ActionEvent event) {
@@ -107,5 +127,36 @@ public class Stock {
 
     public void logout(ActionEvent event) throws IOException {
         showView("Login.fxml",event);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        con = DatabaseHelper.getConnection();
+
+        try {
+            updateList();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        product_idColumn.setCellValueFactory(new PropertyValueFactory<>("product_id"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
+        stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+
+    }
+
+
+    private void updateList() throws SQLException {
+        products.clear();
+        stmt=con.createStatement();
+        ResultSet rs=stmt.executeQuery("select * from stock");
+        while(rs.next()){
+            stock tmp = new stock(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+            products.add(tmp);
+
+        }
+        table1.setItems(products);
     }
 }

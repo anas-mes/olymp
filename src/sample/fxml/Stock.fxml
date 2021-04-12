@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.Stock">
+<BorderPane fx:id="borderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.Stock">
     <left>
         <VBox prefHeight="369.0" prefWidth="190.0" style="-fx-background-color: #61CE70 #61CE70;" BorderPane.alignment="CENTER">
             <children>
@@ -55,26 +55,12 @@
                         <Image url="@../olymImage.png" />
                     </image>
                 </ImageView>
-                <TableView fx:id="table2" prefHeight="300.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                <TableView fx:id="table1" prefHeight="532.0" prefWidth="514.0" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="product_idColumn" prefWidth="75.0" text="Produit_id" />
                         <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
                         <TableColumn fx:id="categorieColumn" prefWidth="75.0" text="Categorie" />
                         <TableColumn fx:id="stockColumn" prefWidth="75.0" text="Stock" />
-                    </columns>
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                    </columnResizePolicy>
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </VBox.margin>
-                </TableView>
-                <TableView fx:id="table1" prefHeight="300.0" prefWidth="200.0" tableMenuButtonVisible="true">
-                    <columns>
-                        <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
-                        <TableColumn fx:id="enregistreparColumn" prefWidth="75.0" text="Enregistre par" />
-                        <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
-                        <TableColumn fx:id="articlesColumn" prefWidth="75.0" text="Articles" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

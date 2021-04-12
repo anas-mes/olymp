@@ -51,6 +51,9 @@ public class AddRecipe implements Initializable {
     private TextField recipeId;
 
     @FXML
+    private TextField recipeCategorie;
+
+    @FXML
     private Button recipeBtn;
 
     private static DecimalFormat df2 = new DecimalFormat("#.##");
@@ -83,6 +86,14 @@ public class AddRecipe implements Initializable {
             for(RecipeIngredients ri : ingredients){
                stmt.execute("Insert into recipes value('"+recipeName.getText()+"','"+recipeId.getText()+"','"+ri.getIngredient()+"','"+ri.getPurcentage()+"');");
             }
+            String id = recipeId.getText();
+            String desc = recipeName.getText();
+            String categori = recipeCategorie.getText();
+            Statement stmt = con.createStatement();
+            String sql = "INSERT INTO stock (product_id,description,categorie) SELECT id,descr,cat FROM (SELECT '"+id+"' as id, '"+desc+"' as descr, '"+categori+"' as cat) t WHERE NOT EXISTS (SELECT 1 FROM stock u WHERE u.product_id = '"+id+"');";
+            stmt.execute(sql);
+
+
             window.close();
         }else{
             System.out.println("nothing");

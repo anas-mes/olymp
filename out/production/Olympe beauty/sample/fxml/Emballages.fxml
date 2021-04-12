@@ -107,7 +107,7 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="49.0" prefWidth="551.0">
                <children>
-                  <Button fx:id="newEntry_btn" mnemonicParsing="false" onAction="#viewNewEntry" text="enregistre" />
+                  <Button fx:id="newEntry_btn" mnemonicParsing="false" onAction="#viewNewEntry" text="ENREGISTRER" />
                </children>
             </HBox>
          </children>
