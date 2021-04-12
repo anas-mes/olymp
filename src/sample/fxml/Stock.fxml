@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -16,12 +15,12 @@
     <left>
         <VBox prefHeight="369.0" prefWidth="190.0" style="-fx-background-color: #61CE70 #61CE70;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="emballage_btn" mnemonicParsing="false" onAction="#viewEmballages" prefHeight="43.0" prefWidth="191.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Emballage" textFill="WHITE">
+                <Button fx:id="emballage_btn" mnemonicParsing="false" onAction="#viewEmballages" prefHeight="43.0" prefWidth="191.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Emballages" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="ingredients_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewIngredients" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matieres Primaires" textFill="WHITE">
+                <Button fx:id="ingredients_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewIngredients" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matières Primaires" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -38,7 +37,7 @@
                 </Button>
                 <VBox alignment="BOTTOM_CENTER" prefHeight="196.0" prefWidth="176.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <Button fx:id="deconnect" alignment="CENTER" mnemonicParsing="false" onAction="#deconnectClicked" prefHeight="43.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="deconexion" textFill="WHITE" underline="true">
+                        <Button fx:id="logoutBtn" alignment="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: transparent;" text="déconnecter" textFill="WHITE" underline="true">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -48,17 +47,6 @@
             </children>
         </VBox>
     </left>
-    <top>
-        <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0" style="-fx-background-color: #7A7A7A;" BorderPane.alignment="CENTER">
-            <children>
-                <Label contentDisplay="CENTER" text="Derniere connexion le : 13/12/2021 Vous etes connecte en tant que : 1185539 en role de : Employe">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-            </children>
-        </HBox>
-    </top>
     <center>
         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -67,7 +55,7 @@
                         <Image url="@../olymImage.png" />
                     </image>
                 </ImageView>
-                <TableView fx:id="table2" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                <TableView fx:id="table2" prefHeight="300.0" prefWidth="200.0" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="product_idColumn" prefWidth="75.0" text="Produit_id" />
                         <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
@@ -81,7 +69,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
                 </TableView>
-                <TableView fx:id="table1" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                <TableView fx:id="table1" prefHeight="300.0" prefWidth="200.0" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                         <TableColumn fx:id="enregistreparColumn" prefWidth="75.0" text="Enregistre par" />

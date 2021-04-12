@@ -66,7 +66,7 @@ public class Ingredients implements Initializable {
     private TextField description;
 
     @FXML
-    private ChoiceBox<String> choice;
+    private TextField categorie;
 
     @FXML
     private Button add;
@@ -88,6 +88,9 @@ public class Ingredients implements Initializable {
 
     @FXML
     private Button newEntry_btn;
+
+    @FXML
+    private Button logoutBtn;
 
     ObservableList<Ingredient> ingredients = FXCollections.observableArrayList();
     ObservableList<PackageEntry> entries = FXCollections.observableArrayList();
@@ -116,8 +119,6 @@ public class Ingredients implements Initializable {
         if(!CurrentUser.isAdmin()){
             hbox.setVisible(false);
         }
-        choice.getItems().add("liquide");
-        choice.getItems().add("solide");
 
         ingredient_idColumn.setCellValueFactory(new PropertyValueFactory<>("ingredient_id"));;
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));;
@@ -172,7 +173,7 @@ public class Ingredients implements Initializable {
     public void addIngredient(ActionEvent actionEvent) throws SQLException {
         String id = matiereId.getText();
         String desc = description.getText();
-        String categori = choice.getValue().toString();
+        String categori = categorie.getText();
         Statement stmt = con.createStatement();
         String sql = "INSERT INTO ingredients (ingredient_id,description,categorie) SELECT id,descr,cat FROM (SELECT '"+id+"' as id, '"+desc+"' as descr, '"+categori+"' as cat) t WHERE NOT EXISTS (SELECT 1 FROM ingredients u WHERE u.ingredient_id = '"+id+"');";
         stmt.execute(sql);
@@ -208,5 +209,9 @@ public class Ingredients implements Initializable {
         }
         table1.setItems(ingredients);
 
+    }
+
+    public void logout(ActionEvent event) throws IOException {
+        showView("Login.fxml",event);
     }
 }

@@ -41,7 +41,7 @@ public class EntryDialog implements Initializable{
     @FXML
     private ChoiceBox<String> choice = new ChoiceBox<>();
     @FXML
-    private static Label description ;
+    private Label description ;
 
     @FXML
     private Spinner quantity;
@@ -55,12 +55,14 @@ public class EntryDialog implements Initializable{
     Connection con = DatabaseHelper.getConnection();
     static Statement stmt=null;
     static ResultSet rs = null ;
+    static ResultSet labelSet = null;
 
 
 
 
     @FXML
     void addPackage(ActionEvent event) throws SQLException {
+
         updateStock();
        updateEntry();
        window.close();
@@ -144,16 +146,19 @@ public class EntryDialog implements Initializable{
     }
 
 
-    public void labelchanger(ActionEvent actionEvent) {
-        String c ;
-        choice.getSelectionModel().selectedIndexProperty().addListener((v,oldvalue, newvalue) -> {
-            for(Package pk : packages){
-                if(pk.getPackage_id().equals(newvalue)){
-                    description.setText(pk.getName());
-                }
-            }
+    public void labelchanger(ActionEvent actionEvent) throws SQLException {
+        stmt = con.createStatement();
+        String label ;
+        if(ss.equals("p")) {
+           labelSet= stmt.executeQuery("Select description from emballage where emballage_id='" + choice.getValue() + "';");
+          if(labelSet.next())
+              description.setText(labelSet.getString(1));
+        }else if(ss.equals("i")){
+            labelSet= stmt.executeQuery("Select description from ingredients where ingredient_id='" + choice.getValue() + "';");
+            if(labelSet.next())
+                description.setText(labelSet.getString(1));
+        }
 
-        });
 
     }
 

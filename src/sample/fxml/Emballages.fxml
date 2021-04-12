@@ -21,7 +21,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="ingredients_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewIngredients" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matieres Primaires" textFill="WHITE">
+            <Button fx:id="ingredients_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewIngredients" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;" text="Matières Primaires" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -38,7 +38,7 @@
             </Button>
             <VBox alignment="BOTTOM_CENTER" prefHeight="196.0" prefWidth="176.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="deconexion" textFill="WHITE" underline="true">
+                  <Button fx:id="logoutBtn" alignment="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: transparent;" text="déconnecter" textFill="WHITE" underline="true">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -56,7 +56,7 @@
                   <Image url="@../olymImage.png" />
                </image>
             </ImageView>
-            <TableView fx:id="table1" prefHeight="220.0" prefWidth="590.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table1" prefHeight="280.0" prefWidth="200.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="package_idColumn" prefWidth="75.0" text="Emballage_id" />
                 <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="Description" />
@@ -91,7 +91,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="table2" prefHeight="220.0" prefWidth="590.0" tableMenuButtonVisible="true">
+            <TableView fx:id="table2" prefHeight="250.0" prefWidth="200.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                 <TableColumn fx:id="registererColumn" prefWidth="75.0" text="Enregistre par" />
@@ -107,7 +107,7 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="49.0" prefWidth="551.0">
                <children>
-                  <Button fx:id="newEntry_btn" mnemonicParsing="false" onAction="#viewNewEntry" text="enregistre" />
+                  <Button fx:id="newEntry_btn" mnemonicParsing="false" onAction="#viewNewEntry" text="ENREGISTRER" />
                </children>
             </HBox>
          </children>

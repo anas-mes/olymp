@@ -75,6 +75,10 @@ public class FabricationDialog implements Initializable{
     void fabriquer(ActionEvent event) throws SQLException {
         stmt = con.createStatement();
         stmt.execute("insert into fabrication(date,product,quantityEstimated) value (current_timestamp ,'"+r+"',"+quantity.getText()+")");
+        for(RecipeEntry re : ingredients){
+            stmt.execute("update ingredients set stock=stock-"+re.getGram()+" where ingredient_id='"+re.getIngName()+"'; ");
+        }
+
         closeProgram();
     }
 

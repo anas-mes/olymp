@@ -104,4 +104,8 @@ public class Stock {
         window.setMaximized(true);
         window.show();
     }
+
+    public void logout(ActionEvent event) throws IOException {
+        showView("Login.fxml",event);
+    }
 }

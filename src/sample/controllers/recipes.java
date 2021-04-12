@@ -119,12 +119,13 @@ public class recipes implements Initializable {
         }
 
         if(!CurrentUser.isAdmin()){
-            recipe_btn.setVisible(false);
+            recipeBtn.setVisible(false);
         }
 
     }
 
     private void loadTable() throws SQLException {
+        table.getItems().clear();
         stmt = con.createStatement();
         set = stmt.executeQuery("select * from fabrication Order by  date DESC ");
         while(set.next()){
@@ -135,14 +136,24 @@ public class recipes implements Initializable {
 
 
     @FXML
-    void chercherClicked(ActionEvent event) {
+    void chercherClicked(ActionEvent event) throws SQLException {
+        recipeList.getItems().clear();
+        stmt = con.createStatement();
+        if(searchTextfield.getText().trim().isEmpty()){
 
+            rs =stmt.executeQuery("Select distinct recipeName from recipes ;");
+            while(rs.next()){
+                recipeList.getItems().add(rs.getString(1));
+            }
+
+        }else{
+            rs = stmt.executeQuery("select distinct recipeName from recipes where recipeName like '%" + searchTextfield.getText() + "%';");
+            while (rs.next()) {
+                recipeList.getItems().add(rs.getString(1));
+            }
+        }
     }
 
-    @FXML
-    void deconnection(ActionEvent event) {
-
-    }
 
     @FXML
     void fabriquerClicked(ActionEvent event) throws IOException, SQLException {
@@ -189,6 +200,21 @@ public class recipes implements Initializable {
         AddRecipe.displayRecipeDialog();
     }
 
-    public void confirmation(ActionEvent actionEvent) {
+    public void confirmation(ActionEvent actionEvent) throws SQLException {
+        stmt = con.createStatement();
+
+        Fabrication tmp = table.getSelectionModel().getSelectedItem();
+        double quant = Double.parseDouble(quantityProduced.getText());
+        if(tmp.getStatus().equals("ouvert")){
+            stmt.execute("update fabrication set quantityProduced="+quant+" , status = 'fermé' where date ='"+tmp.getCurrenttime()+"' ;");
+
+        }
+        loadTable();
+
+
+    }
+
+    public void logout(ActionEvent event) throws IOException {
+        showView("Login.fxml",event);
     }
 }

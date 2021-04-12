@@ -78,6 +78,8 @@ public class Emballages implements Initializable {
     @FXML
     private HBox hbox;
 
+    @FXML
+    private  Button logoutBtn;
 
     Parent root;
     ObservableList<Package> packages = FXCollections.observableArrayList();
@@ -203,5 +205,9 @@ public class Emballages implements Initializable {
 
     public ObservableList<Package> getPackages(){
         return packages;
+    }
+
+    public void logout(ActionEvent event) throws IOException {
+        showView("Login.fxml",event);
     }
 }
